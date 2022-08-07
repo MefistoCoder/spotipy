@@ -429,10 +429,7 @@ class Spotify(object):
         """
 
         trid = self._get_id("album", album_id)
-        if market is not None:
-            return self._get("albums/" + trid + '?market=' + market)
-        else:
-            return self._get("albums/" + trid)
+        return self._get("albums/" + trid, market=market)
 
     def album_tracks(self, album_id, limit=50, offset=0, market=None):
         """ Get Spotify catalog information about an album's tracks
