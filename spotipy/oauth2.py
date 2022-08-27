@@ -590,7 +590,6 @@ class SpotifyOAuth(SpotifyAuthBase):
             token_info = self._add_custom_values_to_token_info(token_info)
             if "refresh_token" not in token_info:
                 token_info["refresh_token"] = refresh_token
-            self.cache_handler.save_token_to_cache(token_info)
             return token_info
         except requests.exceptions.HTTPError as http_error:
             self._handle_oauth_error(http_error)
@@ -924,7 +923,7 @@ class SpotifyPKCE(SpotifyAuthBase):
             token_info = response.json()
             token_info = self._add_custom_values_to_token_info(token_info)
             self.cache_handler.save_token_to_cache(token_info)
-            return token_info["access_token"]
+            return token_info
         except requests.exceptions.HTTPError as http_error:
             self._handle_oauth_error(http_error)
 
@@ -1138,9 +1137,8 @@ class SpotifyImplicitGrant(SpotifyAuthBase):
         else:
             token_info = self.get_auth_response(state)
         token_info = self._add_custom_values_to_token_info(token_info)
-        self.cache_handler.save_token_to_cache(token_info)
 
-        return token_info["access_token"]
+        return token_info
 
     def get_authorize_url(self, state=None):
         """ Gets the URL to use to authorize this app """
